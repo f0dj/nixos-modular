@@ -222,22 +222,22 @@ When building locally with private files, use `path:.` flake schema. Before comm
 
 ## Git & Remote Protocol
 
-Two remotes with a dual-push workflow:
+Two remotes with identical history:
 
 - **`origin`** (private SSH) — daily commits go to `main`, standard `git push`
-- **`public`** — clean commits are cherry-picked via `git push-public` alias, which automatically cherry-picks new commits (since the `public-sync` tag) onto a clean branch and pushes, maintaining history without leaking private ancestors
+- **`public`** — mirrors the same clean history; both remotes receive identical pushes
 
 Rules:
 - Never push automatically
 - Commits follow **Conventional Commits**: `type(scope): subject` with technical rationale in body
-- Because new commits are cherry-picked to the public remote, you must strictly prevent committing any private information (username, email, disk UUIDs) to `main`
+- Private files (`personal.nix`, `hardware-configuration.nix`) are gitignored and never committed
 
 ### Commit Workflow
 
 1. **Pre-Commit:** Run `git status` and `git diff HEAD`. Stage changes with `git add`.
 2. **Commit:** Create a detailed commit with technical rationale (the *why* and technical impact).
 3. **Post-Commit:** Confirm clean state via `git status`.
-4. **Push:** `git push` to origin (private). For public: `git push-public`.
+4. **Push:** `git push origin main && git push public main`.
 
 ## Secret Management (sops-nix)
 

@@ -41,7 +41,7 @@ graph LR
 
 - `nixos-rebuild switch` — system activation is always manual
 - `nix flake update` — lockfile updates are never automated
-- `git push` / `git push-public` — remote sync is always explicit
+- `git push origin main && git push public main` — dual-remote sync is always explicit
 
 ## Architecture at a Glance
 
@@ -109,14 +109,14 @@ All sensitive values live in `secrets/secrets.yaml`, encrypted with age. At buil
 
 ## Dual-Remote Git Setup
 
-This repo maintains **two remotes** with separate histories:
+This repo maintains **two remotes** with identical history:
 
 | Remote | Purpose | Push command |
 |--------|---------|-------------|
-| `origin` (private) | Full history, daily commits | `git push` |
-| `public` | Clean, cherry-picked history | `git push-public` |
+| `origin` (private) | Daily commits | `git push origin main` |
+| `public` | Public mirror | `git push public main` |
 
-The `git push-public` alias cherry-picks new commits onto a clean branch, keeping private ancestor history off the public remote. Private files (`personal.nix`, `hardware-configuration.nix`) are gitignored and never reach either remote.
+History was squashed to a single clean root commit under MPL 2.0. Both remotes receive the same commits. Private files (`personal.nix`, `hardware-configuration.nix`) are gitignored and never reach either remote.
 
 ## NixVim
 
