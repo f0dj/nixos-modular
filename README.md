@@ -1,176 +1,104 @@
-# NixOS Configuration
+# nixos-config
 
-**Your dotfiles, but declarative. Your sysadmin, but an AI.**
+**A personal NixOS + Home Manager configuration — modular, documented, and AI-assisted.**
 
-This isn't just another NixOS config — it's an **AI-native operating system definition**. Drop an AI agent into this repository with [`AGENTS.md`](AGENTS.md), describe what you want in plain English, and it understands the architecture, edits the right modules, runs `nix flake check`, and hands you a verified commit. No memorizing Nix syntax. No hunting for the right option path.
+This is the configuration that runs my laptop. GNOME desktop, TPM2-boot (no password at startup), fingerprint login, encrypted secrets, and a heavily customized Neovim. Built with Nix Flakes and [Snowfall Lib](https://github.com/snowfallorg/lib).
 
-| | |
-|---|---|
-| **Package manager** | Nix Flakes + Snowfall Lib |
-| **Desktop** | GNOME + GDM |
-| **Boot security** | TPM2 LUKS auto-unlock (zero-password boot) |
-| **Authentication** | Fingerprint + password with GNOME Keyring unlock |
-| **Secrets** | `sops-nix` with age encryption |
-| **Editor** | NixVim (modular plugin tree) + Doom Emacs |
-| **Documentation** | NDH framework — JSDoc headers, rationale-first comments |
+It's also written to be readable by AI agents — there's an [`AGENTS.md`](AGENTS.md) that describes the architecture, conventions, and constraints so an AI can make surgical edits, run validation, and produce sensible commits without hand-holding. Not magic, just documentation.
 
-## The AI-Managed Workflow
+## What's in here
 
-The `AGENTS.md` file at the root is the constitution. It encodes the entire architecture, naming conventions, module patterns, pin policies, and behavioral rules. Any compliant AI agent (Crush, Claude, Cursor) reads it on entry and operates with full context.
+| Area | Details |
+|------|---------|
+| **Boot** | systemd-boot, TPM2 LUKS auto-unlock (zero-password boot) |
+| **Desktop** | GNOME + GDM, Intel/NVIDIA hybrid graphics |
+| **Auth** | Fingerprint (Goodix driver) + password, GNOME Keyring unlock |
+| **Secrets** | sops-nix with age encryption, decrypted to `/run/secrets/` |
+| **Editor** | NixVim with 25+ modular plugins, Doom Emacs |
+| **Shell** | zsh + Powerlevel10k + custom aliases |
+| **System** | Docker, Syncthing, Steam, virt-manager, libreoffice (pinned), digikam (pinned) |
+| **Docs** | Every `.nix` file has a JSDoc header and rationale comments |
 
-```mermaid
-graph LR
-    A[You: plain English request] --> B[AI reads AGENTS.md]
-    B --> C[AI edits .nix modules]
-    C --> D[nix flake check]
-    D --> E[dry-run build]
-    E --> F[Commit with rationale]
-    F --> G[You: nixos-rebuild switch]
-```
-
-### What the AI handles
-
-- **Module creation** — place a new `.nix` file in the right directory, Snowfall auto-discovers it
-- **Option wiring** — knows the `my.*` namespace, `mkEnableOption` pattern, and `mkIf` gating
-- **Pin management** — respects existing overlay pins, never unpins without understanding why
-- **Documentation** — enforces NDH headers and rationale comments on every file
-- **Validation** — runs `nix flake check` and dry-run builds before committing
-- **Secret safety** — detects `sops-nix` boundaries, never exposes decrypted secrets
-
-### What you still do
-
-- `nixos-rebuild switch` — system activation is always manual
-- `nix flake update` — lockfile updates are never automated
-- `git push origin main && git push public main` — dual-remote sync is always explicit
-
-## Architecture at a Glance
+## Directory structure
 
 ```
-flake.nix                 — mkFlake entry point, no manual outputs
-systems/                  — per-host NixOS configs (auto-discovered)
-homes/                    — per-user Home Manager configs (username@hostname)
-modules/nixos/            — system modules under my.* namespace
-modules/home/             — user modules under my.* namespace
-packages/                 — custom Nix packages
-overlays/                 — pinned package overlays (stable, emacs, etc.)
-secrets/                  — sops-nix encrypted YAML
+flake.nix              — mkFlake entry point (no manual outputs)
+systems/               — per-host NixOS configs (auto-discovered)
+homes/                 — per-user Home Manager configs
+modules/nixos/         — system modules (boot, desktop, security, etc.)
+modules/home/          — user modules (shell, editors, programs)
+packages/              — custom Nix packages
+overlays/              — pinned package versions (emacs, libreoffice, etc.)
+secrets/               — sops-nix encrypted YAML (gitignored)
 ```
 
-Every module follows a strict boolean-gate pattern: `options.my.<name>.enable` → `config = mkIf cfg.enable { ... }`. No magic. No hidden state. Toggle anything on or off.
+Every module follows one pattern:
 
-## Getting Started
-
-### Prerequisites
-
-Nix with flakes enabled:
 ```nix
-nix.settings.experimental-features = [ "nix-command" "flakes" ];
+options.my.<name>.enable = mkEnableOption "...";
+config = mkIf cfg.enable { /* actual settings */ };
 ```
 
-### Quick start
+No magic toggles. No hidden state. Disable what you don't use.
+
+## AI-assisted workflow
+
+The `AGENTS.md` file at the repo root is ~300 lines of architecture docs, naming conventions, patterns, and operational rules. An AI agent (Crush, Claude, etc.) that reads it can:
+
+- Create or edit `.nix` modules in the right directories
+- Wire up `my.*` namespace options correctly
+- Run `nix flake check` and dry-run builds
+- Produce conventional commits with technical rationale
+- Avoid touching secrets, lockfiles, or personal data
+
+What it can't do: activate the system, update flake inputs, or test on hardware. Those are manual steps.
+
+## Getting started (for your own fork)
 
 ```bash
-# Clone (replace with your fork)
-git clone <repo-url> nixos-config && cd nixos-config
+git clone <your-fork-url> nixos-config && cd nixos-config
 
-# Create your personal config
+# Set up your personal details
 cp modules/nixos/users/personal.nix.example modules/nixos/users/personal.nix
-# Edit personal.nix — set your username, email, timezone
+# Edit: username, name, email, timezone, locale
 
 # Generate hardware config
 nixos-generate-config --show-hardware-config > systems/x86_64-linux/nixos/hardware-configuration.nix
 
-# Dry-run to verify everything compiles
+# Build check
 nix build path:.#nixosConfigurations.nixos.config.system.build.toplevel --dry-run
 
 # Apply
 sudo nixos-rebuild switch --flake path:.#nixos
 ```
 
-> **Note:** Always use `path:.` (not bare `.`) so gitignored files like `personal.nix` are included in the Nix store.
+Use `path:.` (not bare `.`) so gitignored files like `personal.nix` are included in the Nix store.
 
-For detailed step-by-step instructions including hostname renaming, secrets setup, and Home Manager customization, see **[REPLICATION.md](REPLICATION.md)**.
+**Adapting to your hardware:** The boot, graphics, and fingerprint modules are hardware-specific. You'll likely need to adjust or disable them. At minimum, review `modules/nixos/boot/`, `modules/nixos/hardware/`, and `modules/nixos/security/default.nix`.
 
-## Security Model
+## Security notes
 
-### Boot (zero-password)
-The TPM2 chip seals your LUKS key to PCR registers 0+7 (firmware + Secure Boot state). At boot, the TPM releases the key only if the system hasn't been tampered with. Result: you reach GDM without typing a password.
+- **Boot:** TPM2 seals the LUKS key to PCRs 0+7 (firmware + Secure Boot). If the system is tampered with, the TPM won't release the key and you'll be prompted for a password.
+- **Fingerprint:** Logging in with a fingerprint gives you a session but leaves the GNOME Keyring locked (fingerprint hashes can't derive the encryption key). Log in with your password once to unlock saved credentials.
+- **Secrets:** Set `my.security.enable = false` in `personal.nix` to disable sops-nix entirely if you don't need it.
 
-### Login (fingerprint or password)
-| Method | Session | Keyring | When to use |
-|--------|---------|---------|-------------|
-| Fingerprint | Unlocked | Locked | Quick sessions, browsing |
-| Password | Unlocked | Unlocked | Full session with saved credentials |
+## Pinned packages
 
-The GNOME Keyring is encrypted with your login password. Fingerprints are mathematical hashes — they can't derive the decryption key. Log in with your password once per session to unlock everything.
+Some packages are pinned to specific nixpkgs commits to avoid frequent recompilation or bypass build failures:
 
-### Secrets
-All sensitive values live in `secrets/secrets.yaml`, encrypted with age. At build time, `sops-nix` decrypts them to `/run/secrets/` with proper file ownership. Set `my.security.enable = false` in `personal.nix` to disable secrets entirely.
+| Package | Reason |
+|---------|--------|
+| emacs | Fix tree-sitter patch conflict in unstable |
+| libreoffice | Avoid lengthy recompilation on updates |
+| digikam | Avoid lengthy recompilation on updates |
+| scid-vs-pc, openldap, teams-for-linux | Bypass build failures in unstable (pinned to stable channel) |
 
-## Dual-Remote Git Setup
-
-This repo maintains **two remotes** with identical history:
-
-| Remote | Purpose | Push command |
-|--------|---------|-------------|
-| `origin` (private) | Daily commits | `git push origin main` |
-| `public` | Public mirror | `git push public main` |
-
-History was squashed to a single clean root commit under MPL 2.0. Both remotes receive the same commits. Private files (`personal.nix`, `hardware-configuration.nix`) are gitignored and never reach either remote.
-
-## NixVim
-
-Neovim is configured as a tree of independent, toggleable modules under `modules/home/editors/nixvim/`:
-
-```
-plugins/
-├── lsp.nix, treesitter.nix, conform.nix   — core editing
-├── blink.nix, luasnip.nix                 — completion + snippets
-├── fzf-lua.nix, bufferline.nix            — navigation
-├── avante.nix, supermaven.nix             — AI assistance
-├── dap.nix, neotest.nix                   — debugging + testing
-├── orgmode.nix, mini.nix, snacks.nix      — utilities
-└── utils.nix                              — oil, which-key, comment, etc.
-```
-
-Each plugin gates on both `my.editors.nixvim.enable` and its own enable toggle. Disable what you don't use. Add new plugins by dropping a file into `plugins/` and importing it.
-
-## Documentation Standards
-
-Every `.nix` file follows the **Nix-Doc Hierarchy (NDH)** framework:
-
-```nix
-/**
- * @file: relative/path/to/file.nix
- * @purpose: One-line purpose statement.
- * @type: NixOS Module
- * @namespace: my
- */
-```
-
-Inline comments explain the **technical why** behind non-obvious settings. Placeholder comments (`# TODO(config):`) flag thin modules for future extensibility.
-
-## Roadmap
-
-- [x] TPM2 auto-unlock (zero-password boot)
-- [x] Fingerprint login with GOODIX driver
-- [x] Modular NixVim plugin architecture
-- [x] sops-nix secret management
-- [x] Dual-remote Git workflow (public/private)
-- [x] AI agent operational mandate (`AGENTS.md`)
-- [ ] Immutable root ("Erase-Your-Darlings")
-- [ ] System-wide theming via Stylix
-- [ ] Cross-architecture support (`aarch64-linux`)
+If a pin breaks, update the commit hash in its overlay file under `overlays/<name>/default.nix`.
 
 ## Troubleshooting
 
-Common issues and their solutions are documented in **[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)**:
+See [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md) for common issues: user vanishes from GDM, fingerprint doesn't unlock keyring, TPM2 prompts after BIOS update, Home Manager activation failures.
 
-- User vanishes from GDM after rebuild
-- Fingerprint doesn't unlock GNOME Keyring
-- TPM2 prompts for password after BIOS update
-- Home Manager activation fails for template user
+## License
 
----
-
-*Built with [Snowfall Lib](https://github.com/snowfallorg/lib), managed by AI, deployed with Nix.*
+MPL 2.0 — see [`LICENSE`](LICENSE).
