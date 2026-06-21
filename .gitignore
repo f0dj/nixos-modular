@@ -1,0 +1,40 @@
+/secrets/*
+!/secrets/*.age
+/bluetooth_ts_old/
+/resources/
+.temp/bluetooth_ts_old/
+result*
+
+
+# Editors
+*.swp
+*~
+.vscode/
+.idea/
+
+# Nix
+repl-result.nix
+.direnv/
+
+# OS
+.DS_Store
+
+# Temporary files
+.gemini/
+.gemini_sessions.txt
+gemini_resume.sh
+
+# crush files
+.crush/
+
+# AI files and directories (AI.md Mandate)
+CLAUDE.md
+.cursorrules
+ORIGINAL_REQUEST.md
+.agents/
+
+# Personal config ignore
+modules/nixos/users/personal.nix
+homes/x86_64-linux/f0dj@nixos
+systems/x86_64-linux/nixos/hardware-configuration.nix
+personal-changelog.md

@@ -1,0 +1,41 @@
+/**
+ * @file: modules/nixos/users/personal.nix.example
+ * @purpose: Template for user personal details and custom settings.
+ * @type: NixOS Module
+ * @namespace: my
+ */
+{ config, lib, ... }:
+{
+  my.personal = {
+    username = "nixos";
+    name = "NixOS User";
+    email = "user@example.com";
+    timeZone = "UTC";
+    defaultLocale = "en_US.UTF-8";
+    extraLocale = "en_US.UTF-8";
+    inputMethod = "us";
+    orgDirectory = "~/Org";
+  };
+
+  # Syncthing personal folders and devices configuration
+  services.syncthing.settings = lib.mkIf config.services.syncthing.enable {
+    devices = {
+      # Example device format:
+      # "my-phone" = {
+      #   id = "XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX";
+      # };
+    };
+    folders = {
+      # Example folder format:
+      # "documents" = {
+      #   path = "/home/${config.my.personal.username}/Documents";
+      #   id = "docs";
+      #   devices = ["my-phone"];
+      #   ignorePerms = true;
+      # };
+    };
+    gui = {
+      user = config.my.personal.username;
+    };
+  };
+}

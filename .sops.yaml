@@ -1,0 +1,6 @@
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - "age15l6532s2avx72qch9e2vayzrc5hljk87d38g7e3scy40gcj7l93q4jwjmq" # Your USER key (from ~/.config/sops/age/keys.txt)
+          - "age1mwpmug23cjlj9u3gzyjtz0ypw3lz5we9h5txm3kzeqfqrn0d6dcssy2v2l" # System Key
