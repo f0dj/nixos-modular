@@ -51,6 +51,9 @@ in
     programs.nixvim = {
       enable = true;
       version.enableNixpkgsReleaseCheck = false;
+      # ponytail: nixvim's pinned nixpkgs has a stdenv bootstrap
+      # infinite recursion; follow main nixpkgs to avoid it
+      nixpkgs.source = inputs.nixpkgs;
     };
     _module.args.inputs = inputs;
   };

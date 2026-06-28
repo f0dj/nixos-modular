@@ -18,7 +18,8 @@
     };
 
     nixvim = {
-      url = "github:nix-community/nixvim";
+      url = "github:nix-community/nixvim/cd53e7ae1f05b8030245e341ac33fb902ec7d0b7";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     snacks-nvim = {
