@@ -32,7 +32,7 @@ in
             };
             deepseek = {
               endpoint = "https://api.deepseek.com/v1";
-              model = "deepseek-coder";
+              model = "deepseek-v4-flash";
               api_key_name = "cmd:cat /run/secrets/deepseek_api_key";
               use_ReAct_prompt = true;
               extra_request_body = {

@@ -209,7 +209,7 @@
 ;; GPTel Configuration (Improved with Leader Menu & AI Completions)
 (use-package! gptel
   :config
-  (setq gptel-model 'deepseek-coder
+  (setq gptel-model 'deepseek-v4-flash
         gptel-backend (gptel-make-openai "DeepSeek"
                         :host "api.deepseek.com"
                         :endpoint "/chat/completions"
@@ -218,15 +218,7 @@
                                (with-temp-buffer
                                  (insert-file-contents "/run/secrets/deepseek_api_key")
                                  (string-trim (buffer-string))))
-                        :models '(deepseek-coder deepseek-chat)))
-  
-  (gptel-make-gemini "Gemini"
-    :key (lambda ()
-           (with-temp-buffer
-             (insert-file-contents "/run/secrets/google_api_key")
-             (string-trim (buffer-string))))
-    :stream t
-    :models '(gemini-2.0-flash))
+                        :models '(deepseek-v4-flash deepseek-v4-pro)))
   
   (defun +gptel-assist (beg end)
     "Prompt for an instruction and invoke gptel on the region."
@@ -241,7 +233,7 @@
   (defun +gptel/complete-at-point ()
     "AI-powered code completion (Ghost Text Style - Manual Trigger)."
     (interactive)
-    (let ((gptel-model (if (derived-mode-p 'prog-mode) 'deepseek-coder 'deepseek-chat))
+    (let ((gptel-model (if (derived-mode-p 'prog-mode) 'deepseek-v4-flash 'deepseek-v4-pro))
           (prefix (buffer-substring-no-properties (max (point-min) (- (point) 1500)) (point))))
       (gptel-request
        prefix

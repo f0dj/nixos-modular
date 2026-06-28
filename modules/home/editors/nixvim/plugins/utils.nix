@@ -49,7 +49,7 @@ in
                   return require('codecompanion.adapters').extend('openai', {
                       schema = {
                           model = {
-                            default = 'deepseek-coder',
+                            default = 'deepseek-v4-flash',
                           },
                           endpoint = {
                             default = 'https://api.deepseek.com',
