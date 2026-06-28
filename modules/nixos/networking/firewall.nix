@@ -1,7 +1,7 @@
 /**
  * @file: modules/nixos/networking/firewall.nix
  * @purpose: NixOS module for configuring firewall rules and allowed ports.
- * @type: Module
+ * @type: NixOS Module
  * @namespace: my
  */
 { config, lib, ... }:

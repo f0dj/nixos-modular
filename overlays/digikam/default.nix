@@ -9,6 +9,9 @@
 
 final: prev: {
   # Pin digikam to avoid rebuilds on nixpkgs-unstable channel updates
+  #
+  # PIN(pinned 2026-06-10): Avoids lengthy recompilation.
+  # Remove when ready to accept the rebuild cost on next flake update.
   digikam = (import inputs.nixpkgs-digikam {
     system = final.stdenv.hostPlatform.system;
     config.allowUnfree = true;

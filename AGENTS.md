@@ -264,6 +264,8 @@ Do not unpin without understanding why each pin exists. The `stable` overlay exp
 | openldap | `overlays/openldap/` | stable | 2026-04-25 | Bypass test017-syncreplication-refresh failure in unstable |
 | scid-vs-pc | `overlays/scid-vs-pc/` | stable | 2026-04-25 | Bypass patch failure in unstable |
 | teams-for-linux | `overlays/stable/` | stable | 2026-04-25 | Bypass electron build failure in unstable |
+| nixvim | `flake.nix` | `cd53e7ae1f05b8030245e341ac33fb902ec7d0b7` | — | Prevent nixvim updates from breaking the plugin tree |
+| noice.nvim | `plugins/noice.nix` | Fork `axlEscalada/noice.nvim` @ `5a981b5` | — | Custom fork with unspecified patches |
 
 ## NixVim Plugin Architecture
 

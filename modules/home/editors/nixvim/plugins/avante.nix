@@ -18,7 +18,7 @@ in
       plugins.avante = {
         enable = true;
         settings = {
-          provider = "gemini";
+          provider = "deepseek";
           providers = {
             gemini = {
               endpoint = "https://generativelanguage.googleapis.com/v1beta";

@@ -13,6 +13,7 @@ in
     enable = lib.mkEnableOption "mini.nvim plugins for NixVim";
   };
 
+  # Auto-closes brackets, quotes, and other paired characters.
   config = lib.mkIf (config.my.editors.nixvim.enable && cfg.enable) {
     programs.nixvim.plugins.mini = {
       enable = true;

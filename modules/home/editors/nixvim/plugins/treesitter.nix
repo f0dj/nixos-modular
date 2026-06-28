@@ -14,6 +14,7 @@ in
     textobjects.enable = lib.mkEnableOption "Treesitter textobjects plugin";
   };
 
+  # Syntax highlighting, indentation, folding, and text-object navigation via Tree-sitter.
   config = lib.mkIf (config.my.editors.nixvim.enable && cfg.enable) {
     programs.nixvim = {
       plugins.treesitter = {

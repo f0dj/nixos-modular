@@ -9,6 +9,9 @@
 
 final: prev: {
   # Pin scid-vs-pc to stable to avoid build regressions in unstable
+  #
+  # PIN(pinned 2026-04-25): Bypasses patch failure in unstable.
+  # Remove when upstream fixes the build.
   scid-vs-pc = (import inputs.nixpkgs-stable {
     system = final.stdenv.hostPlatform.system;
     config.allowUnfree = true;

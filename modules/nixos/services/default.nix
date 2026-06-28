@@ -1,7 +1,7 @@
 /**
  * @file: modules/nixos/services/default.nix
  * @purpose: NixOS module for miscellaneous system services.
- * @type: Module
+ * @type: NixOS Module
  * @namespace: my
  */
 { config, lib, pkgs, ... }:

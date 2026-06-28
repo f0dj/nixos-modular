@@ -1,7 +1,7 @@
 /**
  * @file: modules/nixos/fonts/default.nix
  * @purpose: NixOS module for installing a curated collection of system fonts.
- * @type: Module
+ * @type: NixOS Module
  * @namespace: my
  */
 {

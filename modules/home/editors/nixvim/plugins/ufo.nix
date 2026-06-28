@@ -13,6 +13,7 @@ in
     enable = lib.mkEnableOption "nvim-ufo plugin for NixVim";
   };
 
+  # Provides fold column with Treesitter-based code folding.
   config = lib.mkIf (config.my.editors.nixvim.enable && cfg.enable) {
     programs.nixvim.plugins.nvim-ufo.enable = true;
   };

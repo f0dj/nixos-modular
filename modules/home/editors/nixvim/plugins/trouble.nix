@@ -13,6 +13,7 @@ in
     enable = lib.mkEnableOption "trouble.nvim plugin for NixVim";
   };
 
+  # Pretty diagnostics, references, and quickfix list in a split pane.
   config = lib.mkIf (config.my.editors.nixvim.enable && cfg.enable) {
     programs.nixvim.plugins.trouble.enable = true;
   };

@@ -13,6 +13,7 @@ in
     enable = lib.mkEnableOption "Blink-cmp plugin for NixVim";
   };
 
+  # LSP-first completion engine with ripgrep fallback and Nerd Font icons.
   config = lib.mkIf (config.my.editors.nixvim.enable && cfg.enable) {
     programs.nixvim = {
       extraPlugins = with pkgs.vimPlugins; [

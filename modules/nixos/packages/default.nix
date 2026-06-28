@@ -1,7 +1,7 @@
 /**
  * @file: modules/nixos/packages/default.nix
  * @purpose: System-wide packages configuration for the NixOS system.
- * @type: Module
+ * @type: NixOS Module
  * @namespace: my
  */
 {

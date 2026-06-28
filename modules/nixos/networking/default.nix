@@ -1,7 +1,7 @@
 /**
  * @file: modules/nixos/networking/default.nix
  * @purpose: NixOS module for networking configuration (hostname, NetworkManager).
- * @type: Module
+ * @type: NixOS Module
  * @namespace: my
  */
 { config, lib, pkgs, ... }:

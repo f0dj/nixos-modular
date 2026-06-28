@@ -1,7 +1,7 @@
 /**
  * @file: modules/nixos/hardware/default.nix
  * @purpose: NixOS module for configuring graphics, audio, Bluetooth, and firmware.
- * @type: Module
+ * @type: NixOS Module
  * @namespace: my
  */
 { config, lib, pkgs, ... }:

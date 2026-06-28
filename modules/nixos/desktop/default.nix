@@ -1,7 +1,7 @@
 /**
  * @file: modules/nixos/desktop/default.nix
  * @purpose: NixOS module for configuring the GNOME desktop environment.
- * @type: Module
+ * @type: NixOS Module
  * @namespace: my
  */
 { config, lib, pkgs, ... }:

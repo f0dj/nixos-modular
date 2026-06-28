@@ -13,6 +13,7 @@ in
     enable = lib.mkEnableOption "noice.nvim plugin for NixVim";
   };
 
+  # Replaces Neovim's built-in command-line and message UI with floating windows.
   config = lib.mkIf (config.my.editors.nixvim.enable && cfg.enable) {
     programs.nixvim = {
       plugins.nui.enable = true;

@@ -1,7 +1,7 @@
 /**
  * @file: modules/nixos/services/fwupd.nix
  * @purpose: NixOS module for configuring the fwupd firmware update service.
- * @type: Module
+ * @type: NixOS Module
  * @namespace: my
  */
 { config, lib, ... }:

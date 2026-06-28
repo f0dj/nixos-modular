@@ -420,30 +420,6 @@ in
         }
         {
           mode = "n";
-          key = "<Tab>";
-          action = "<CMD>bnext<CR>";
-          options = {
-            desc = "Next buffer";
-          };
-        }
-        {
-          mode = "n";
-          key = "<S-Tab>";
-          action = "<CMD>bprev<CR>";
-          options = {
-            desc = "Previous buffer";
-          };
-        }
-        {
-          mode = "n";
-          key = "<leader>bd";
-          action = "<CMD>bdelete<CR>";
-          options = {
-            desc = "Delete buffer";
-          };
-        }
-        {
-          mode = "n";
           key = "<M-i>";
           action = "<C-i>";
           options = {

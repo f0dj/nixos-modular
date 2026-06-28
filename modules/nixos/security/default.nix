@@ -1,7 +1,7 @@
 /**
  * @file: modules/nixos/security/default.nix
  * @purpose: NixOS module for security-related services (GPG, TPM2, etc.).
- * @type: Module
+ * @type: NixOS Module
  * @namespace: my
  */
 { config, lib, pkgs, ... }:

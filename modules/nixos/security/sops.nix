@@ -1,7 +1,7 @@
 /**
  * @file: modules/nixos/security/sops.nix
  * @purpose: NixOS module for configuring sops-nix for secret management.
- * @type: Module
+ * @type: NixOS Module
  * @namespace: my
  */
 { config, lib, ... }:

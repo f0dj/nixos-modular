@@ -1,7 +1,7 @@
 /**
  * @file: modules/nixos/users/default.nix
  * @purpose: NixOS module for configuring system user accounts and permissions.
- * @type: Module
+ * @type: NixOS Module
  * @namespace: my
  */
 {

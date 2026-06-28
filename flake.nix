@@ -37,6 +37,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # TODO(architecture): Consider migrating from Snowfall Lib to manual
+    # flake outputs. Single-host/single-user config saves ~50 lines of
+    # boilerplate at the cost of a hard dependency and user workarounds.
     snowfall-lib = {
       url = "github:snowfallorg/lib";
       inputs.nixpkgs.follows = "nixpkgs";

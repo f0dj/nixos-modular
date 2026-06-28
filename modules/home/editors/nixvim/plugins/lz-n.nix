@@ -13,6 +13,7 @@ in
     enable = lib.mkEnableOption "lz-n plugin for NixVim";
   };
 
+  # Lazy-loads plugins on keypress or event to reduce startup time.
   config = lib.mkIf (config.my.editors.nixvim.enable && cfg.enable) {
     programs.nixvim.plugins.lz-n.enable = true;
   };

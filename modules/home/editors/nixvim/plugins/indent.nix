@@ -16,10 +16,6 @@ in
   config = lib.mkIf (config.my.editors.nixvim.enable && cfg.enable) {
     programs.nixvim = {
       plugins.indent-blankline = {
-        # Preserve original disabled state if it was false in original config
-        # though the user might want to enable it via options now.
-        # Original had enable = false;
-        enable = false; 
         settings = {
           indent = {
             char = "▏";

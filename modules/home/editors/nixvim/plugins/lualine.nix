@@ -13,6 +13,7 @@ in
     enable = lib.mkEnableOption "Lualine plugin for NixVim";
   };
 
+  # Fast and customizable statusline with scrollbar position indicator.
   config = lib.mkIf (config.my.editors.nixvim.enable && cfg.enable) {
     programs.nixvim = {
       plugins.lualine = {

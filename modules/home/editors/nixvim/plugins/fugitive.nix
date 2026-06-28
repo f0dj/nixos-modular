@@ -46,14 +46,6 @@ in
         }
         {
           mode = "n";
-          key = "<leader>gb";
-          action = "<cmd>Git blame<CR>";
-          options = {
-            desc = "Git blame";
-          };
-        }
-        {
-          mode = "n";
           key = "<leader>gm";
           action = "<cmd>Git mergetool<CR>";
           options = {

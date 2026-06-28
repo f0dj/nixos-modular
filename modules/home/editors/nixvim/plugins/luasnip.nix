@@ -13,6 +13,7 @@ in
     enable = lib.mkEnableOption "Luasnip plugin for NixVim";
   };
 
+  # Snippet engine with VSCode snippet compatibility and auto-snippets.
   config = lib.mkIf (config.my.editors.nixvim.enable && cfg.enable) {
     programs.nixvim = {
       plugins.luasnip = {
